@@ -27,11 +27,16 @@ const WEDDING = {
 function getGuestFromUrl() {
   const parts = window.location.pathname.split("/").filter(Boolean);
 
-  if (parts.length < 2 || parts[0].toLowerCase() !== "invite") {
+  // Find "invite" anywhere in the path
+  const inviteIndex = parts.findIndex(
+    (part) => part.toLowerCase() === "invite",
+  );
+
+  if (inviteIndex === -1 || !parts[inviteIndex + 1]) {
     return null;
   }
 
-  const guestId = decodeURIComponent(parts[1]).toLowerCase();
+  const guestId = decodeURIComponent(parts[inviteIndex + 1]).toLowerCase();
 
   return guests[guestId] || null;
 }
