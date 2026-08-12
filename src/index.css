@@ -1,0 +1,1507 @@
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap");
+
+/* =========================================================
+   RESET
+   ========================================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  min-width: 100%;
+  min-height: 100%;
+}
+
+body {
+  font-family: "Montserrat", sans-serif;
+  background: #f1eee9;
+  color: #403a34;
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+a {
+  font: inherit;
+}
+
+
+/* =========================================================
+   ENVELOPE SCREEN
+   ========================================================= */
+
+.envelope-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      circle at 50% 35%,
+      #ffffff 0%,
+      #f4f2ef 32%,
+      #dfddd9 68%,
+      #cbc9c5 100%
+    );
+
+  transition:
+    opacity 1s ease,
+    transform 1s ease;
+}
+
+.envelope-screen.opening {
+  animation:
+    envelopeSceneExit 1.1s ease 1.8s forwards;
+}
+
+
+/* =========================================================
+   BACKGROUND LIGHT
+   ========================================================= */
+
+.envelope-screen::before {
+  content: "";
+
+  position: absolute;
+
+  width: 650px;
+  height: 650px;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(255, 255, 255, 0.9),
+      rgba(255, 255, 255, 0) 68%
+    );
+
+  filter: blur(25px);
+
+  pointer-events: none;
+}
+
+.envelope-scene {
+  position: relative;
+
+  width: min(92vw, 700px);
+  height: min(90vh, 700px);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+/* =========================================================
+   FLOOR SHADOW
+   ========================================================= */
+
+.envelope-scene::after {
+  content: "";
+
+  position: absolute;
+
+  left: 50%;
+  bottom: 105px;
+
+  width: min(70vw, 430px);
+  height: 45px;
+
+  transform: translateX(-50%);
+
+  border-radius: 50%;
+
+  background: rgba(50, 45, 40, 0.18);
+
+  filter: blur(20px);
+
+  animation: shadowBreathing 4s ease-in-out infinite;
+}
+
+
+/* =========================================================
+   CRYSTAL ENVELOPE
+   ========================================================= */
+
+.crystal-envelope {
+  position: relative;
+
+  width: min(84vw, 540px);
+
+  aspect-ratio: 1.55;
+
+  cursor: pointer;
+
+  perspective: 1400px;
+
+  transform-style: preserve-3d;
+
+  filter:
+    drop-shadow(
+      0 28px 25px rgba(45, 40, 35, 0.2)
+    );
+
+  transition:
+    transform 0.6s cubic-bezier(.2,.8,.2,1);
+}
+
+.crystal-envelope:hover {
+  transform:
+    translateY(-8px)
+    scale(1.015);
+}
+
+
+/* =========================================================
+   ENVELOPE GLASS GLOW
+   ========================================================= */
+
+.envelope-glow {
+  position: absolute;
+
+  width: min(75vw, 480px);
+  height: min(75vw, 480px);
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(255,255,255,.8),
+      rgba(255,255,255,0) 68%
+    );
+
+  filter: blur(20px);
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   CRYSTAL ENVELOPE BODY
+   ========================================================= */
+
+.envelope-body {
+  position: absolute;
+  inset: 0;
+
+  z-index: 3;
+
+  overflow: hidden;
+
+  border-radius: 7px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 253, 247, 0.98) 0%,
+      rgba(248, 245, 238, 0.96) 35%,
+      rgba(255, 252, 245, 0.98) 55%,
+      rgba(235, 229, 218, 0.94) 100%
+    );
+  border:
+    1px solid rgba(255,255,255,.95);
+
+  box-shadow:
+
+    inset
+    0 1px 2px
+    rgba(255,255,255,.95),
+
+    inset
+    0 -18px 35px
+    rgba(100,100,100,.08),
+
+    inset
+    12px 0 30px
+    rgba(255,255,255,.18),
+
+    0 1px 3px
+    rgba(40,35,30,.12);
+
+  backdrop-filter:
+    blur(2px);
+}
+
+
+/* =========================================================
+   ENVELOPE DIAGONAL FOLDS
+   ========================================================= */
+
+.envelope-body::before {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  background:
+    linear-gradient(
+      32deg,
+      transparent 49.6%,
+      rgba(255,255,255,.7) 50%,
+      transparent 50.5%
+    ),
+
+    linear-gradient(
+      -32deg,
+      transparent 49.6%,
+      rgba(255,255,255,.58) 50%,
+      transparent 50.5%
+    );
+
+  opacity: .55;
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   GLASS REFLECTIONS
+   ========================================================= */
+
+.crystal-reflection {
+  position: absolute;
+
+  top: -30%;
+
+  width: 24px;
+  height: 170%;
+
+  transform: rotate(25deg);
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(255,255,255,.85),
+      transparent
+    );
+
+  filter: blur(4px);
+
+  opacity: .55;
+
+  pointer-events: none;
+
+  animation:
+    glassReflection
+    5s
+    ease-in-out
+    infinite;
+}
+
+.reflection-one {
+  left: 18%;
+}
+
+.reflection-two {
+  left: 68%;
+  animation-delay: 1.8s;
+}
+
+
+/* =========================================================
+   OPAQUE REALISTIC LETTER
+   ========================================================= */
+
+.hidden-letter {
+  position: absolute;
+
+  z-index: 2;
+
+  left: 7%;
+  right: 7%;
+
+  top: 10%;
+
+  height: 79%;
+
+  overflow: hidden;
+
+  background:
+    linear-gradient(
+      135deg,
+      #fffefa 0%,
+      #fdfbf7 35%,
+      #f8f4ec 70%,
+      #f1ebe1 100%
+    );
+
+  border:
+    1px solid #d8d0c4;
+
+  box-shadow:
+
+    0 1px 2px
+    rgba(40,35,30,.08),
+
+    0 7px 14px
+    rgba(50,45,40,.13),
+
+    0 18px 32px
+    rgba(50,45,40,.12),
+
+    inset
+    0 1px 0
+    rgba(255,255,255,.95),
+
+    inset
+    0 -1px 0
+    rgba(210,200,188,.4);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transform:
+    translateY(10px)
+    rotateX(0deg);
+
+  transition:
+    transform
+    1.65s
+    cubic-bezier(.18,.82,.2,1),
+
+    box-shadow
+    1.2s ease;
+}
+
+
+/* Paper grain */
+
+.hidden-letter::before {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  opacity: .22;
+
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(110,95,80,.025) 0px,
+      rgba(110,95,80,.025) 1px,
+      transparent 1px,
+      transparent 4px
+    ),
+
+    repeating-linear-gradient(
+      90deg,
+      rgba(110,95,80,.018) 0px,
+      rgba(110,95,80,.018) 1px,
+      transparent 1px,
+      transparent 5px
+    );
+
+  pointer-events: none;
+}
+
+
+/* Soft paper highlight */
+
+.hidden-letter::after {
+  content: "";
+
+  position: absolute;
+
+  width: 170%;
+  height: 65%;
+
+  top: -20%;
+  left: -35%;
+
+  transform: rotate(-13deg);
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(255,255,255,.8),
+      transparent
+    );
+
+  opacity: .5;
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   LETTER CONTENT
+   ========================================================= */
+
+.letter-content {
+  position: relative;
+  z-index: 2;
+
+  display: flex;
+  align-items: center;
+
+  gap: 13px;
+
+  font-family:
+    "Cormorant Garamond",
+    serif;
+
+  font-size: 37px;
+
+  font-weight: 500;
+
+  letter-spacing: 1px;
+
+  color: #50483f;
+
+  text-shadow:
+    0 1px 0 #ffffff;
+}
+
+.letter-content small {
+  color: #a58b6c;
+  font-size: 25px;
+}
+
+
+/* =========================================================
+   CRYSTAL FLAP
+   ========================================================= */
+
+.envelope-flap {
+  position: absolute;
+
+  z-index: 1;
+
+  inset: 0;
+
+  transform-origin:
+    top center;
+
+  transform-style: preserve-3d;
+
+  clip-path:
+    polygon(
+      0 0,
+      100% 0,
+      50% 58%
+    );
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255,255,255,.68),
+      rgba(220,225,226,.38) 45%,
+      rgba(255,255,255,.62)
+    );
+
+  border-top:
+    1px solid
+    rgba(255,255,255,.95);
+
+  box-shadow:
+    inset
+    0 1px 2px
+    rgba(255,255,255,.95),
+
+    inset
+    0 -15px 25px
+    rgba(100,100,100,.07);
+
+  transition:
+    transform
+    1.3s
+    cubic-bezier(.16,.8,.18,1);
+}
+
+
+/* Flap shine */
+
+.flap-glass {
+  position: absolute;
+  inset: 0;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255,255,255,.75),
+      transparent 38%,
+      rgba(255,255,255,.4) 70%,
+      transparent
+    );
+}
+
+
+/* =========================================================
+   WAX / CRYSTAL SEAL
+   ========================================================= */
+
+.envelope-seal {
+  position: absolute;
+  z-index: 8;
+
+  left: 50%;
+  top: 54%;
+
+  width: 74px;
+  height: 74px;
+
+  transform: translate(-50%, -50%);
+
+  transition:
+    opacity .45s ease,
+    transform .55s ease;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.envelope-seal img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.envelope-seal span {
+  text-shadow:
+    0 1px 1px rgba(255,255,255,.9);
+}
+
+
+/* =========================================================
+   OPENING ANIMATION
+   ========================================================= */
+
+.opening .envelope-flap {
+  transform:
+    rotateX(180deg);
+}
+
+
+.opening .envelope-seal {
+  opacity: 0;
+
+  transform:
+    translate(-50%,-50%)
+    scale(.45);
+}
+
+
+/*
+   The opaque letter comes OUT of
+   the envelope.
+*/
+
+.opening .hidden-letter {
+  transform:
+    translateY(-195px)
+    scale(1.035);
+
+  box-shadow:
+
+    0 8px 16px
+    rgba(40,35,30,.12),
+
+    0 28px 48px
+    rgba(45,40,35,.19),
+
+    inset
+    0 1px 0
+    rgba(255,255,255,.95);
+}
+
+
+/* Envelope itself disappears after opening */
+
+.opening .crystal-envelope {
+  animation:
+    envelopeDisappear
+    1s
+    ease
+    1.75s
+    forwards;
+}
+
+
+/* =========================================================
+   OPEN TEXT
+   ========================================================= */
+
+.open-text {
+  position: absolute;
+
+  left: 50%;
+  bottom: 35px;
+
+  transform:
+    translateX(-50%);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 7px;
+
+  color:
+    rgba(65,60,55,.72);
+
+  animation:
+    openTextPulse
+    2.2s
+    ease-in-out
+    infinite;
+
+  transition:
+    opacity .4s ease;
+}
+
+.open-text span {
+  font-family:
+    "Cormorant Garamond",
+    serif;
+
+  font-size: 26px;
+}
+
+.open-text small {
+  font-size: 9px;
+
+  letter-spacing: 3px;
+
+  text-transform: uppercase;
+}
+
+.opening .open-text {
+  opacity: 0;
+}
+
+
+/* =========================================================
+   ENVELOPE ANIMATIONS
+   ========================================================= */
+
+@keyframes glassReflection {
+
+  0%,
+  100% {
+    transform:
+      translateX(-30px)
+      rotate(25deg);
+  }
+
+  50% {
+    transform:
+      translateX(75px)
+      rotate(25deg);
+  }
+}
+
+
+@keyframes openTextPulse {
+
+  0%,
+  100% {
+    opacity: .5;
+    transform:
+      translateX(-50%)
+      translateY(0);
+  }
+
+  50% {
+    opacity: 1;
+    transform:
+      translateX(-50%)
+      translateY(-4px);
+  }
+}
+
+
+@keyframes shadowBreathing {
+
+  0%,
+  100% {
+    transform:
+      translateX(-50%)
+      scaleX(.95);
+
+    opacity: .15;
+  }
+
+  50% {
+    transform:
+      translateX(-50%)
+      scaleX(1.05);
+
+    opacity: .23;
+  }
+}
+
+
+@keyframes envelopeDisappear {
+
+  to {
+    opacity: 0;
+
+    transform:
+      scale(.88)
+      translateY(35px);
+  }
+}
+
+
+@keyframes envelopeSceneExit {
+
+  to {
+    opacity: 0;
+
+    transform:
+      scale(1.035);
+  }
+}
+
+
+/* =========================================================
+   INVITATION PAGE
+   ========================================================= */
+
+.invitation {
+  min-height: 100vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 35px 15px;
+
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      #ffffff 0%,
+      #f8f5ef 42%,
+      #eee8de 100%
+    );
+
+  animation:
+    invitationAppear
+    1.5s
+    cubic-bezier(.2,.8,.2,1)
+    forwards;
+}
+
+
+/* =========================================================
+   INVITATION CARD
+   ========================================================= */
+
+.invitation-card {
+  position: relative;
+
+  width: 100%;
+  max-width: 720px;
+
+  min-height: 850px;
+
+  padding:
+    72px 70px;
+
+  text-align: center;
+
+  background:
+    linear-gradient(
+      135deg,
+      #fffefa,
+      #fcfaf6
+    );
+
+  border:
+    1px solid
+    #ded5ca;
+
+  box-shadow:
+
+    0 15px 35px
+    rgba(65,55,45,.08),
+
+    0 35px 70px
+    rgba(65,55,45,.08);
+
+    overflow: hidden;
+}
+
+.invitation-card .decoration {
+  position: absolute;
+
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100%;
+
+  pointer-events: none;
+}
+
+.invitation-card .decoration .top-left {
+  position: absolute;
+
+  top: -0px;
+  left: -50px;
+
+  width: 100%;
+  max-width: 200px;
+
+  object-fit: cover;
+
+}
+.invitation-card .decoration .top-right {
+  position: absolute;
+
+  top: -0px;
+  right: -50px;
+
+  width: 100%;
+  max-width: 200px;
+
+  object-fit: cover;
+
+  transform: scaleX(-1) ;
+
+}
+
+
+
+/* Inner border */
+
+.invitation-card::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 13px;
+
+  border:
+    1px solid
+    #e4dbd0;
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   INVITATION CONTENT
+   ========================================================= */
+
+.top-decoration {
+  margin-bottom: 24px;
+
+  color: #a48b6e;
+
+  font-size: 20px;
+}
+.top-decoration .flower1 {
+  width: 100%;
+  max-width: 190px;
+
+  display: block;
+  margin: 0 auto; 
+}
+
+.top-decoration .flower-bottom {
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 230px;
+  
+
+  display: block;
+  margin: 0 auto; 
+}
+
+
+.small-title {
+  margin:
+    0 0 28px;
+
+  color: #927b60;
+
+  font-size: 10px;
+
+  letter-spacing: 4px;
+}
+
+
+.couple-names {
+  margin: 0;
+
+  color: #443b33;
+
+  font-family:
+    "Cormorant Garamond",
+    serif;
+
+  font-size:
+    clamp(
+      55px,
+      9vw,
+      86px
+    );
+
+  line-height: .8;
+
+  font-weight: 500;
+}
+
+.couple-names span {
+  display: block;
+}
+
+
+.ampersand {
+  margin:
+    19px 0;
+
+  color: #a58b6c;
+
+  font-size: 38px;
+
+  line-height: 1;
+}
+
+
+/* =========================================================
+   DIVIDERS
+   ========================================================= */
+
+.divider {
+  max-width: 280px;
+
+  margin:
+    35px auto;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 14px;
+
+  color: #a58b6c;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+
+  height: 1px;
+
+  flex: 1;
+
+  background:
+    #d8cdbf;
+}
+
+
+/* =========================================================
+   GUEST
+   ========================================================= */
+
+.dear {
+  margin:
+    0 0 2px;
+
+  color: #75695d;
+
+  font-family:
+    "Cormorant Garamond",
+    serif;
+
+  font-size: 24px;
+
+  font-style: italic;
+}
+
+
+.guest-name {
+  margin:
+    0 0 20px;
+
+  color: #443b33;
+
+  font-family:
+    "Cormorant Garamond",
+    serif;
+
+  font-size: 53px;
+
+  line-height: 1;
+
+  font-weight: 600;
+}
+
+
+/* =========================================================
+   MESSAGE
+   ========================================================= */
+
+.message {
+  max-width: 500px;
+
+  margin:
+    8px auto;
+
+  color: #756d65;
+
+  font-size: 14px;
+
+  line-height: 1.9;
+}
+
+
+/* =========================================================
+   DETAILS
+   ========================================================= */
+
+.wedding-details {
+  display: grid;
+
+  gap: 25px;
+
+  margin:
+    45px auto
+    35px;
+}
+
+
+.detail {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 6px;
+}
+
+
+.detail-label {
+  color: #a58b6c;
+
+  font-size: 9px;
+
+  letter-spacing: 3px;
+
+}
+
+
+.detail strong {
+  color: #443b33;
+
+  font-family:
+    "Cormorant Garamond",
+    serif;
+
+  font-size: 25px;
+
+  font-weight: 600;
+}
+
+
+.location {
+  color: #8b8177;
+
+  font-size: 12px;
+}
+.venue-link {
+color: #443b33;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 25px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+.venue-link:hover {
+  color: #a58b6c;
+}
+.venue-link small {
+  font-size: 8px;
+  font-weight: normal;
+  color: #756d65;
+}
+
+
+/* =========================================================
+   COUNTDOWN
+   ========================================================= */
+
+.countdown-title {
+  margin:
+    0 0 20px;
+
+  color: #927b60;
+
+  font-size: 9px;
+
+  letter-spacing: 3px;
+}
+
+
+.countdown {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 25px;
+}
+
+.time-box {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.circle {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.time-box span {
+  position: absolute;
+  top: 38%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  font-size: 30px;
+  font-weight: 600;
+  z-index: 2;
+}
+
+.time-box small {
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  transform: translateX(-50%);
+
+  font-size: 12px;
+  z-index: 2;
+}
+
+
+.countdown-finished {
+  color: #443b33;
+
+  font-family:
+    "Cormorant Garamond",
+    serif;
+
+  font-size: 28px;
+}
+
+
+.bottom-message {
+  margin-top: 40px;
+
+  color: #75695d;
+
+  font-family:
+    "Cormorant Garamond",
+    serif;
+
+  font-size: 21px;
+
+  font-style: italic;
+}
+
+
+/* =========================================================
+   INVITATION ANIMATION
+   ========================================================= */
+
+@keyframes invitationAppear {
+
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(45px)
+      scale(.96);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(0)
+      scale(1);
+  }
+}
+
+
+/* =========================================================
+   NOT FOUND
+   ========================================================= */
+
+.not-found {
+  min-height: 100vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+
+  background: #f1eee9;
+}
+
+
+.not-found-card {
+  width: 100%;
+  max-width: 500px;
+
+  padding:
+    60px 30px;
+
+  text-align: center;
+
+  background: #fffdf9;
+
+  border:
+    1px solid
+    #ded5ca;
+
+  box-shadow:
+    0 20px 50px
+    rgba(60,50,40,.08);
+}
+
+
+.not-found-card h1 {
+  margin:
+    20px 0;
+
+  color: #443b33;
+
+  font-family:
+    "Cormorant Garamond",
+    serif;
+
+  font-size: 46px;
+
+  font-weight: 500;
+}
+
+
+.not-found-card p {
+  color: #756d65;
+
+  font-size: 14px;
+
+  line-height: 1.7;
+}
+
+
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+  .envelope-scene {
+    width: 100vw;
+    height: 580px;
+  }
+
+
+  .crystal-envelope {
+    width: 88vw;
+  }
+
+
+  .envelope-scene::after {
+    bottom: 105px;
+    width: 75vw;
+  }
+
+
+  .envelope-seal {
+    width: 60px;
+    height: 60px;
+    font-size: 24px;
+  }
+
+
+  .letter-content {
+    font-size: 28px;
+  }
+ 
+
+
+  .letter-content small {
+    font-size: 21px;
+  }
+
+
+  .opening .hidden-letter {
+    transform:
+      translateY(-155px)
+      scale(1.025);
+  }
+
+
+  .open-text {
+    bottom: 35px;
+    white-space: nowrap;
+  }
+
+
+  .open-text span {
+    font-size: 23px;
+  }
+
+
+  .invitation {
+    padding: 10px;
+  }
+
+
+  .invitation-card {
+    min-height:
+      calc(100vh - 20px);
+
+    padding:
+      55px 24px;
+
+
+    margin:
+      auto;
+  }
+
+
+  .invitation-card::before {
+    inset: 8px;
+  }
+
+
+  .couple-names {
+    font-size: 61px;
+  }
+
+
+  .guest-name {
+    font-size: 44px;
+  }
+
+
+  .message {
+    font-size: 13px;
+  }
+
+
+   .countdown {
+    gap: 8px;
+  }
+
+  .time-box {
+    width: 75px;
+    height: 75px;
+  }
+
+  .time-box span {
+    font-size: 20px;
+  }
+
+  .time-box small {
+    font-size: 8px;
+  }
+   .invitation-card .decoration .top-left {
+    left: -60px;
+    max-width: 160px;
+   }
+   .invitation-card .decoration .top-right {
+    right: -60px;
+    max-width: 160px;
+   }
+   .top-decoration .flower-bottom {
+    bottom: -15px;
+    max-width: 180px;
+    
+   }
+
+  
+}
+
+
+/* =========================================================
+   SMALL PHONES
+   ========================================================= */
+
+@media (max-width: 380px) {
+
+  .crystal-envelope {
+    width: 91vw;
+  }
+
+
+  .letter-content {
+    font-size: 24px;
+  }
+
+
+  .envelope-seal {
+    width: 52px;
+    height: 52px;
+  }
+
+
+  .couple-names {
+    font-size: 54px;
+  }
+
+
+  .guest-name {
+    font-size: 39px;
+  }
+
+
+  .time-box {
+    width: 63px;
+  }
+    .opening .hidden-letter {
+    transform:
+      translateY(-115px)
+      scale(1.025);
+  }
+ 
+
+  .invitation-card .decoration .top-left {
+    left: -70px;
+    max-width: 150px;
+  }
+
+  .invitation-card .decoration .top-right {
+    right: -70px;
+    max-width: 150px;
+  }
+
+   
+.top-decoration .flower-bottom {
+  bottom: -10px;
+  max-width: 180px;
+}
+
+}
